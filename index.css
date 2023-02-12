@@ -1,0 +1,65 @@
+<style>
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  label, input, button {
+    margin: 10px 0;
+  }
+
+  input[type="text"] {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 300px;
+  }
+
+  button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+  }
+
+  canvas {
+    margin-top: 20px;
+  }
+</style>
+
+<div>
+  <h1 style="text-align: center;">Cálculo de Generación de Energía Fotovoltaica</h1>
+  <p style="text-align: center;">
+    Utilice este calculador para determinar el potencial de generación de energía fotovoltaica basado en los datos estadísticos de heliophany de su ubicación geográfica.
+  </p>
+  <form>
+    <label for="latitude">Latitud:</label>
+    <input type="text" id="latitude" name="latitude" placeholder="Ingrese la latitud..." required />
+    <label for="longitude">Longitud:</label>
+    <input type="text" id="longitude" name="longitude" placeholder="Ingrese la longitud..." required />
+    <label for="surface">Superficie disponible (m²):</label>
+    <input type="text" id="surface" name="surface" placeholder="Ingrese la superficie disponible (m²)..." required />
+    <button type="submit">Calcular</button>
+  </form>
+  <canvas id="chart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script>
+  const form = document.querySelector("form");
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const latitude = form.querySelector("#latitude").value;
+    const longitude = form.querySelector("#longitude").value;
+    const surface = form.querySelector("#surface").value;
+
+    // Obtenga la información necesaria de la API de HelioClim
+    fetch(`http://www.helioclim.fr/cgi-bin/fcgi/HelioClim1.fcgi?email=user%40example.com&lat=${latitude}&
